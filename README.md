@@ -4,22 +4,13 @@
     
 ## Links
     
-- [pull request]()
+- [pull request](https://github.com/daniel-nguyen-401-advanced-javascript/lab-16/pull/1)
     
 ## Challenge
     
 Create three events, `pickup`, `in-transit`, and `delivered`.
 
 Your application should automatically generate random orders every 5 seconds. These random orders should have a store, id, customer, and address as the order data.
-    
-## Approach & Efficiency
-    
-- `add` is O(1)
-- `contains` is O(n) I think?
-    
-## API
-    
--
     
 ## Testing
     
