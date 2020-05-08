@@ -1,0 +1,29 @@
+{
+  "name": "lab16",
+  "version": "1.0.0",
+  "description": "- Create and implement an event driven application that “distributes” logging commands to separate modules. Our application will be called CAPS, the Code Academy Parcel Service. CAPS will simulate a delivery service where sellers will ship products and be notified when customer receives those products..",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint **/*.js",
+    "test": "jest --verbose --coverage events.test.js",
+    "test-watch": "jest --watchAll --verbose --coverage"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "faker": "^4.1.0",
+    "jest": "^25.5.4"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daniel-nguyen-401-advanced-javascript/lab-16.git"
+  },
+  "bugs": {
+    "url": "https://github.com/daniel-nguyen-401-advanced-javascript/lab-16/issues"
+  },
+  "homepage": "https://github.com/daniel-nguyen-401-advanced-javascript/lab-16#readme"
+}
