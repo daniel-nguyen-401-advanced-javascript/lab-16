@@ -1,6 +1,6 @@
 # Event Driven Applications
     
-- Create and implement a BinaryTree and BinarySearchTree class and any important methods related to that.
+- Create an event driven application that “distributes” logging commands to separate modules. Our application will be called CAPS, the Code Academy Parcel Service. CAPS will simulate a delivery service where sellers will ship products and be notified when customer receives those products.
     
 ## Links
     
@@ -8,23 +8,9 @@
     
 ## Challenge
     
-Create three classes, `Node`, `BinaryTree`, and `BinarySearchTree`
+Create three events, `pickup`, `in-transit`, and `delivered`.
 
-`Node` class should have the following properties:
-* `val`
-* `left`
-* `right`
-
-`BinaryTree` should have the following properties and functions/methods:
-* `root`
-* `preOrder()`
-* `inOrder()`
-* `postOrder()`
-
-`BinarySearchTree` should have the following properties and functions/methods:
-* `root`
-* `add(val)`
-* `contains(val)`
+Your application should automatically generate random orders every 5 seconds. These random orders should have a store, id, customer, and address as the order data.
     
 ## Approach & Efficiency
     
@@ -38,9 +24,3 @@ Create three classes, `Node`, `BinaryTree`, and `BinarySearchTree`
 ## Testing
     
 - `npm test`
-
-## Credit
-- [Binary Search Tree - Beau Teaches Javascript](https://www.youtube.com/watch?v=5cU1ILGy6dM)
-- [Binary Search Tree Search](https://www.youtube.com/watch?v=zm83jPHZ-jA&list=PLrmLmBdmIlpv_jNDXtJGYTPNQ2L1gdHxu&index=3&t=0s)
-- [Binary Search Tree in JavaScript - Traversal](https://www.youtube.com/watch?v=dbK1rKyLsBA)
-- [ChilledCow's Favorites Playlist](https://open.spotify.com/playlist/31FWVQBp3WQydWLNhO0ACi)
