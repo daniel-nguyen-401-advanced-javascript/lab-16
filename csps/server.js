@@ -43,12 +43,28 @@ server.on('connection', (socket) => {
   //log console log on new connection
   socketPool.push(socket);
   console.log('**Inbound connect from', socket.address(), '**');
-
+  
   //handle incoming data from connections
   socket.on('data', (payload) => {
-    console.log(JSON.parse(Buffer.from(payload).toString()));
-  })
+    let parsedPayload = JSON.parse(Buffer.from(payload).toString());
+    
+    //parsing works, sending out data doesn't work
+    if (parsedPayload.event === 'pickup') {
+      console.log(parsedPayload);
 
-  //if event is 'delivered', then log 'Thank you for delivering order 1' to vendor.js
+      let driverSocket = socketPool[1];
+      driverSocket.write(JSON.stringify({ event: 'pickup', content: parsedPayload.content}));
+    }
+
+    if (parsedPayload.event === 'in-transit') {
+      console.log('In-Transit order', parsedPayload.content.orderID);
+    }
+
+    if (parsedPayload.event === 'delivered') {
+      console.log('Delivered order', parsedPayload.content.orderID);
+      let vendorSocket = socketPool[0];
+      vendorSocket.write(JSON.stringify({ event: 'delivered', content: parsedPayload.content}));
+    }
+  })
 
 });

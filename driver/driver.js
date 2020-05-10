@@ -25,9 +25,33 @@
 
 const net = require('net');
 const socket = net.Socket();
-const faker = require('faker');
 
 socket.connect({ port: 3000, host: 'localhost'}, () => {
   console.log('**Connected to TCP Socket Server!**');
 });
 
+socket.on('data', (payload) => {
+
+  let parsedPayload = JSON.parse(Buffer.from(payload).toString());
+  if (parsedPayload.event === 'pickup') {
+    //wait one second
+    setTimeout(() => {
+      //log picked up order 
+      console.log('Picked up order', parsedPayload.content.orderID);
+      //create object with key/values {event: in-transit, content: payload}
+      //send object to server
+      socket.write(JSON.stringify({ event: 'in-transit', content: parsedPayload.content}));
+
+      //wait 3 seconds
+      //log delivered order # to console
+      //create object with key/values {event: delivered, content: payload}
+      //send object to server
+      setTimeout(() => {
+        console.log('Delivered order', parsedPayload.content.orderID);
+        socket.write(JSON.stringify({ event: 'delivered', content: parsedPayload.content}));
+      }, 3000)
+    }, 1000);
+  }
+
+
+});

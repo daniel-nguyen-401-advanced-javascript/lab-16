@@ -9,7 +9,7 @@ Your vendor application should automatically generate random orders every 5 seco
     
 ## Links
     
-- [pull request](https://github.com/daniel-nguyen-401-advanced-javascript/lab-16/pull/1)
+- [pull request](https://github.com/daniel-nguyen-401-advanced-javascript/lab-16/pull/2)
     
 ## Challenge
     
@@ -17,6 +17,14 @@ Create three events, `pickup`, `in-transit`, and `delivered`.
 
 Your application should automatically generate random orders every 5 seconds. These random orders should have a store, id, customer, and address as the order data.
     
-## Testing
+## Testing Instructions
     
-- `npm test`
+- open 3 terminal windows
+* window 1 should be `csps/server.js`
+* window 2 should be `vendor/vendor.js`
+* window 3 should be `driver/driver.js`
+- run `npm start`, in order, on `csps`, then `vendor`, then `driver`
+- that should get your logs going properly
+
+## UML
+![lab-16-uml]()

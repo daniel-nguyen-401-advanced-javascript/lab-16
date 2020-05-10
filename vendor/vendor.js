@@ -14,12 +14,6 @@
 // Thank you for delivering order 3
 // Thank you for delivering order 4
 
-// - Time: 05/07/2020 1:30 PM
-// - Store: My Flower Shop
-// - OrderID: 1
-// - Customer: Billy Biggs
-// - Address: 123 Main Street, New York, NY
-
 const net = require('net');
 const socket = net.Socket();
 const faker = require('faker');
@@ -36,7 +30,13 @@ setInterval(() => {
     customer: faker.name.firstName() + ' ' + faker.name.lastName(),
     address: faker.address.streetAddress(),
   }
-  console.log('5 sec interval fire');
+  // console.log('5 sec interval fire');
   //.write sends data connected server(server.js)
   socket.write(JSON.stringify({ event: 'pickup', content: newOrder}));
 }, 5000);
+
+//thank you log when 'delivered' event is detected from server
+socket.on('data', (payload) => {
+  let parsedPayload = JSON.parse(Buffer.from(payload).toString());
+  if (parsedPayload.event === 'delivered') console.log('Thank you for delivering order', parsedPayload.content.orderID);
+});
