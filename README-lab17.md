@@ -27,4 +27,4 @@ Your application should automatically generate random orders every 5 seconds. Th
 - that should get your logs going properly
 
 ## UML
-![lab-16-uml]()
+![lab-16-uml](/lab-16-uml.jpg)
