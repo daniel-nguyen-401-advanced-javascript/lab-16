@@ -13,3 +13,30 @@
 // Thank you for delivering order 2
 // Thank you for delivering order 3
 // Thank you for delivering order 4
+
+// - Time: 05/07/2020 1:30 PM
+// - Store: My Flower Shop
+// - OrderID: 1
+// - Customer: Billy Biggs
+// - Address: 123 Main Street, New York, NY
+
+const net = require('net');
+const socket = net.Socket();
+const faker = require('faker');
+
+socket.connect({ port: 3000, host: 'localhost'}, () => {
+  console.log('**Connected to TCP Socket Server!**');
+});
+
+setInterval(() => {
+  let newOrder = {
+    time: faker.date.recent(),
+    store: 'My Small Biz',
+    orderID: faker.random.uuid(),
+    customer: faker.name.firstName() + ' ' + faker.name.lastName(),
+    address: faker.address.streetAddress(),
+  }
+  console.log('5 sec interval fire');
+  //.write sends data connected server(server.js)
+  socket.write(JSON.stringify({ event: 'pickup', content: newOrder}));
+}, 5000);

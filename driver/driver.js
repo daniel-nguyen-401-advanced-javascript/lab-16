@@ -22,3 +22,12 @@
 // delivered order 2
 // picked up order 3
 // delivered order 3
+
+const net = require('net');
+const socket = net.Socket();
+const faker = require('faker');
+
+socket.connect({ port: 3000, host: 'localhost'}, () => {
+  console.log('**Connected to TCP Socket Server!**');
+});
+

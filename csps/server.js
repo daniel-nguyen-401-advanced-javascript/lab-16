@@ -27,3 +27,28 @@
 // - Address: 234 Grand Street, New York, NY
 // in-transit order 2
 // delivered order 2
+
+const net = require('net');
+const server = net.createServer();
+
+let socketPool = [];
+let port = 3000;
+
+//start server
+server.listen(port, () => {
+  console.log('Server up and running on port', port);
+});
+
+server.on('connection', (socket) => {
+  //log console log on new connection
+  socketPool.push(socket);
+  console.log('**Inbound connect from', socket.address(), '**');
+
+  //handle incoming data from connections
+  socket.on('data', (payload) => {
+    console.log(JSON.parse(Buffer.from(payload).toString()));
+  })
+
+  //if event is 'delivered', then log 'Thank you for delivering order 1' to vendor.js
+
+});
