@@ -4,6 +4,6 @@
 
 'use strict';
 
-
-require('./lib/vendor.js');
-require('./lib/driver.js');
+//old lab stuff
+// require('./lib/vendor.js');
+// require('./lib/driver.js');
