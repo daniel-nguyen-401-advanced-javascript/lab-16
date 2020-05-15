@@ -9,7 +9,7 @@ Your vendor application should automatically generate random orders every 5 seco
     
 ## Links
     
-- [pull request](https://github.com/daniel-nguyen-401-advanced-javascript/lab-16/pull/2)
+- [pull request](https://github.com/daniel-nguyen-401-advanced-javascript/lab-16/pull/3)
     
 ## Challenge
     
@@ -18,6 +18,8 @@ Create three events, `pickup`, `in-transit`, and `delivered`.
 Your application should automatically generate random orders every 5 seconds. These random orders should have a store, id, customer, and address as the order data.
 
 ## Approach & Efficiency
+
+- I believe everything is O(1)? Not even sure how Big O stuff factors into this one
 
 # API
 
