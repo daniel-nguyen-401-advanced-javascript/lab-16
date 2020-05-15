@@ -16,6 +16,14 @@ Your vendor application should automatically generate random orders every 5 seco
 Create three events, `pickup`, `in-transit`, and `delivered`.
 
 Your application should automatically generate random orders every 5 seconds. These random orders should have a store, id, customer, and address as the order data.
+
+## Approach & Efficiency
+
+# API
+
+- `csps.on`
+- `csps.emit`
+- `socket.on`
     
 ## Testing Instructions
     
@@ -27,4 +35,4 @@ Your application should automatically generate random orders every 5 seconds. Th
 - that should get your logs going properly
 
 ## UML
-![lab-16-uml](/lab-16-uml.jpg)
+![lab-18-uml](/lab-18-uml.jpg)

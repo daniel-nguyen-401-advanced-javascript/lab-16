@@ -35,9 +35,3 @@ setInterval(() => {
 socket.on('delivered-heard', (payload) => {
   console.log('Thank you for delivering order', payload.orderID);
 })
-
-// //thank you log when 'delivered' event is detected from server
-// socket.on('data', (payload) => {
-//   let parsedPayload = JSON.parse(Buffer.from(payload).toString());
-//   if (parsedPayload.event === 'delivered') console.log('Thank you for delivering order', parsedPayload.content.orderID);
-// });

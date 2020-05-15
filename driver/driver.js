@@ -2,8 +2,6 @@
 
 const sioc = require('socket.io-client');
 const socket = sioc.connect('http://localhost:3000/csps');
-const faker = require('faker');
-
 
 // Your driver application will act as a socket client to the CSPS server. In your driver.js file, you should have the following processes implemented:
 
@@ -31,32 +29,3 @@ socket.on('in-transit-heard', (payload) => {
     socket.emit('delivered', payload);
   }, 3000);
 });
-
-//refactor to not listen to data
-// socket.on('data', (payload) => {
-
-//   let parsedPayload = JSON.parse(Buffer.from(payload).toString());
-//   if (parsedPayload.event === 'pickup') {
-//     //wait one second
-//     setTimeout(() => {
-//       //log picked up order 
-//       console.log('Picked up order', parsedPayload.content.orderID);
-//       //create object with key/values {event: in-transit, content: payload}
-//       //send object to server
-//       // socket.write(JSON.stringify({ event: 'in-transit', content: parsedPayload.content}));
-//       socket.emit('in-transit', payload);
-
-//       //wait 3 seconds
-//       //log delivered order # to console
-//       //create object with key/values {event: delivered, content: payload}
-//       //send object to server
-//       setTimeout(() => {
-//         console.log('Delivered order', parsedPayload.content.orderID);
-//         // socket.write(JSON.stringify({ event: 'delivered', content: parsedPayload.content}));
-//         socket.emit('delivered', payload);
-//       }, 3000)
-//     }, 1000);
-//   }
-
-
-// });
