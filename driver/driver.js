@@ -1,57 +1,62 @@
 'use strict';
 
-// Your driver application will act as a TCP Socket Connection to the CSPS Socket server. In your driver.js file, you should have the following processes implemented:
+const sioc = require('socket.io-client');
+const socket = sioc.connect('http://localhost:3000/csps');
+const faker = require('faker');
 
-// * Connect to the CSPS Socket Server
-// * Listen for the data event from the CSPS Socket Server. When you hear that event, look at the payload sent and parse it. If it has a property event equal to pickup, then simulate picking up the package
-// * Wait one second
-// * Log picked up order # to the console
-// * Create an object with key values event equal to in-transit and payload equal to the order object you received.
-// * Send that object to the server
 
-// You should then kick off the delivery simulation
-// * Wait three seconds
-// * Log delivered order # to the console
-// * Create an object with key values event equal to delivered and payload equal to the order object you received.
-// * Send that object to the server
+// Your driver application will act as a socket client to the CSPS server. In your driver.js file, you should have the following processes implemented:
 
-// // example logs
-// picked up order 1
-// delivered order 1
-// picked up order 2
-// delivered order 2
-// picked up order 3
-// delivered order 3
+// *X Connect to the CSPS Socket Server, in the csps namespace
+// *X Listen for the pickup event from the CSPS server. When you hear that event, look at the payload sent and simulate picking up the package
+    // *** Wait one second
+    // *** Log picked up order # to the console
+    // *** Emit an in-transit event with the same order payload passed along
 
-const net = require('net');
-const socket = net.Socket();
+// *X Listen for the in-transit event. When heard, look at the payload and simulate the delivery of the package
+    // *** Wait three seconds
+    // *** Log delivered order # to the console
+    // *** Emit a delivered event with the same order payload passed along
 
-socket.connect({ port: 3000, host: 'localhost'}, () => {
-  console.log('**Connected to TCP Socket Server!**');
+socket.on('pickup-heard', (payload) => {
+  setTimeout(() => {
+    console.log('Picked up order', payload.orderID);
+    socket.emit('in-transit', payload);
+  }, 1000);
 });
 
-socket.on('data', (payload) => {
-
-  let parsedPayload = JSON.parse(Buffer.from(payload).toString());
-  if (parsedPayload.event === 'pickup') {
-    //wait one second
-    setTimeout(() => {
-      //log picked up order 
-      console.log('Picked up order', parsedPayload.content.orderID);
-      //create object with key/values {event: in-transit, content: payload}
-      //send object to server
-      socket.write(JSON.stringify({ event: 'in-transit', content: parsedPayload.content}));
-
-      //wait 3 seconds
-      //log delivered order # to console
-      //create object with key/values {event: delivered, content: payload}
-      //send object to server
-      setTimeout(() => {
-        console.log('Delivered order', parsedPayload.content.orderID);
-        socket.write(JSON.stringify({ event: 'delivered', content: parsedPayload.content}));
-      }, 3000)
-    }, 1000);
-  }
-
-
+socket.on('in-transit-heard', (payload) => {
+  setTimeout(() => {
+    console.log('Delivered order', payload.orderID);
+    socket.emit('delivered', payload);
+  }, 3000);
 });
+
+//refactor to not listen to data
+// socket.on('data', (payload) => {
+
+//   let parsedPayload = JSON.parse(Buffer.from(payload).toString());
+//   if (parsedPayload.event === 'pickup') {
+//     //wait one second
+//     setTimeout(() => {
+//       //log picked up order 
+//       console.log('Picked up order', parsedPayload.content.orderID);
+//       //create object with key/values {event: in-transit, content: payload}
+//       //send object to server
+//       // socket.write(JSON.stringify({ event: 'in-transit', content: parsedPayload.content}));
+//       socket.emit('in-transit', payload);
+
+//       //wait 3 seconds
+//       //log delivered order # to console
+//       //create object with key/values {event: delivered, content: payload}
+//       //send object to server
+//       setTimeout(() => {
+//         console.log('Delivered order', parsedPayload.content.orderID);
+//         // socket.write(JSON.stringify({ event: 'delivered', content: parsedPayload.content}));
+//         socket.emit('delivered', payload);
+//       }, 3000)
+//     }, 1000);
+//   }
+
+
+// });

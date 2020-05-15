@@ -1,42 +1,43 @@
 'use strict';
 
-// Your vendor application will act as a TCP Socket Connection to the CSPS Socket Server. In your vendor.js file, you should have the following processes implemented:
-
-// * Connect to the CSPS Socket Server
-// * Every 5 seconds, a new customer order will be randomly generated. This order should have a store name, order id, customer name and address. Use the faker package to help generate random values.
-// * When a new customer order is generated, create an object with key values event set to pickup and payload set to the customer order object.
-// * Send this {event, payload} object to the CSPS Socket Server
-// * Listen for the data event from the CSPS Socket Server. When you hear that event, look at the payload sent and parse it. If it has property event equal to delivered, then you should log a thank you message to the console. Ignore all other events.
-
-//example logs
-// Thank you for delivering order 1
-// Thank you for delivering order 2
-// Thank you for delivering order 3
-// Thank you for delivering order 4
-
-const net = require('net');
-const socket = net.Socket();
+const sioc = require('socket.io-client');
+const socket = sioc.connect('http://localhost:3000/csps');
+// may need roomname at the end of localhost
 const faker = require('faker');
 
-socket.connect({ port: 3000, host: 'localhost'}, () => {
-  console.log('**Connected to TCP Socket Server!**');
-});
 
+// Your vendor application will act as a socket client to the CSPS server. In your vendor.js file, you should have the following processes implemented:
+
+// *X Connect to the CSPS server, in the csps namespace
+// * Emit a join event, with the store name (which will be used as the room name) as the event payload
+// *X Every 5 seconds, a new customer order will be randomly generated. This order should have a store name, order id, customer name and address. Use the faker package to help generate random values.
+// *X When a new customer order is generated, emit a pickup event, with the generated order as the payload
+// *X Listen for the delivered event from the CSPS server. When you hear that event, look at the payload sent and log a thank you message to the console with the order ID
+
+
+//// refactor to use rooms
 setInterval(() => {
   let newOrder = {
     time: faker.date.recent(),
-    store: 'My Small Biz',
+    store: faker.company.companyName(),
     orderID: faker.random.uuid(),
     customer: faker.name.firstName() + ' ' + faker.name.lastName(),
     address: faker.address.streetAddress(),
   }
   // console.log('5 sec interval fire');
   //.write sends data connected server(server.js)
-  socket.write(JSON.stringify({ event: 'pickup', content: newOrder}));
+  // socket.write(JSON.stringify({ event: 'pickup', content: newOrder}));
+  // console.log('making new order (5sec)', newOrder.orderID);
+  socket.emit('pickup', newOrder);
 }, 5000);
 
-//thank you log when 'delivered' event is detected from server
-socket.on('data', (payload) => {
-  let parsedPayload = JSON.parse(Buffer.from(payload).toString());
-  if (parsedPayload.event === 'delivered') console.log('Thank you for delivering order', parsedPayload.content.orderID);
-});
+//refactor to not listen to data
+socket.on('delivered-heard', (payload) => {
+  console.log('Thank you for delivering order', payload.orderID);
+})
+
+// //thank you log when 'delivered' event is detected from server
+// socket.on('data', (payload) => {
+//   let parsedPayload = JSON.parse(Buffer.from(payload).toString());
+//   if (parsedPayload.event === 'delivered') console.log('Thank you for delivering order', parsedPayload.content.orderID);
+// });
